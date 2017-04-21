@@ -49,7 +49,7 @@ form {
   position: relative;
 }
 
-.new-task input {
+.new-task input, .new-message input {
   box-sizing: border-box;
   padding: 10px 0;
   background: transparent;
@@ -59,7 +59,7 @@ form {
   font-size: 1em;
 }
 
-.new-task input:focus{
+.new-task input:focus, .new-message input:focus {
   outline: 0;
 }
 
@@ -123,4 +123,27 @@ header .hide-completed {
   .new-task input {
     padding-bottom: 5px;
   }
+}
+
+.half-screen {
+  height: calc(50vh - 60px);
+  overflow-y: auto;
+}
+
+.padded {
+  padding: 20px 10px;
+}
+
+.small-padded {
+  padding: 10px 5px;
+}
+
+.messages {
+  min-height: calc(100% - 120px);
+  max-height: calc(100% - 120px);
+  overflow-y: auto;
+}
+
+.new-message {
+  margin: 0 10px;
 }

@@ -7,9 +7,12 @@ import { Tasks } from '../api/tasks.js';
 import './task.js';
 import './body.html';
 
+import { Messages } from '../api/messages.js';
+
 Template.body.onCreated(function bodyOnCreated() {
   this.state = new ReactiveDict();
   Meteor.subscribe('tasks');
+  Meteor.subscribe('messages', () => $('.messages').scrollTop($('.messages').prop("scrollHeight")));
 });
 
 Template.body.helpers({
@@ -25,6 +28,12 @@ Template.body.helpers({
   incompleteCount() {
     return Tasks.find({ checked: { $ne: true } }).count();
   },
+  showChat() {
+    return !!Meteor.user();
+  },
+  messages() {
+    return Messages.find({}, { sort: { createdAt: +1 } });
+  }
 });
 
 Template.body.events({
@@ -45,4 +54,19 @@ Template.body.events({
   'change .hide-completed input'(event, instance) {
     instance.state.set('hideCompleted', event.target.checked);
   },
+  'submit .new-message'(event) {
+    event.preventDefault();
+
+    const target = event.target;
+    const text = target.text.value;
+
+    Meteor.call('messages.insert', text);
+    target.text.value = '';
+
+    $('.messages').scrollTop($('.messages').prop("scrollHeight"));
+  },
+});
+
+Handlebars.registerHelper('formatTime', function (date) {
+    return date.getHours() + (date.getMinutes() < 10 ? ":0" : ":") + date.getMinutes();
 });

@@ -17,10 +17,24 @@
       {{/if}}
     </header>
 
-    <ul>
+    <ul class="{{#if showChat}}half-screen{{/if}}">
       {{#each tasks}}
         {{> task}}
       {{/each}}
     </ul>
+
+    {{#if showChat}}
+      <div class="half-screen">
+        <h1 class="padded">Tasks chat</h1>
+        <ul class="messages">
+          {{#each messages}}
+            <li><div class="author"><b>{{author}}</b> - {{formatTime createdAt}}</div><div class="message small-padded">{{message}}</div></li>
+          {{/each}}
+        </ul>
+        <form class="new-message">
+          <input type="text" name="text" placeholder="Type to add new message" />
+        </form>
+      </div>
+    {{/if}}
   </div>
 </body>
